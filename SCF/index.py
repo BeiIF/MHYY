@@ -13,9 +13,9 @@ import sentry_sdk
 import random
 import time
 
-# with open('./config.json', 'rt') as f:   # Local debugging
-#     config = json.loads(f.read())
-#     f.close()
+with open('./config.json', 'rt') as f:   # Local debugging
+    config = json.loads(f.read())
+    f.close()
 
 sentry_sdk.init(
     "https://425d7b4536f94c9fa540fe34dd6609a2@o361988.ingest.sentry.io/6352584",
@@ -27,7 +27,7 @@ sentry_sdk.init(
 )
 
 # Running in Github Action, use this to get the config
-config = json.loads(os.environ.get('config'))
+# config = json.loads(os.environ.get('config'))
 
 
 class RunError(Exception):
@@ -78,7 +78,7 @@ def handler(*args):
     else:
         if token == '' or android == 0 or deviceid == '' or devicemodel == '' or appid == 0:
             raise RunError(f'请确认您的配置文件配置正确再运行本程序！')
-    wait_time = random.randint(1, 3600) # Random Sleep to Avoid Ban
+    wait_time = random.randint(1, 120) # Random Sleep to Avoid Ban
     print(f'为了避免同一时间签到人数太多导致被官方怀疑，开始休眠 {wait_time} 秒')
     time.sleep(wait_time)
     wallet = r.get(WalletURL, headers=headers, timeout=60)
